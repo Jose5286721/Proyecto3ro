@@ -73,6 +73,7 @@
 											<th>ID</th>
 											<th>Nombre Menu</th>
 											<th>Fecha Creada</th>
+											<th>Acciones</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -80,6 +81,9 @@
 											<td th:text="${menu.id}"></td>
 											<td th:text="${menu.nombre}"></td>
 											<td th:text="${menu.createdAt}"></td>
+											<td><a th:href="@{'/menu/'+ ${menu.id} +'/add'}" class="btn btn-success">Agregar Plato</a>
+												<a th:href="@{'/menu/'+ ${menu.id}}" class="btn btn-info">Detalles</a>
+											</td>
 										</tr>
 									</tbody>
 								</table>

@@ -28,4 +28,9 @@ public class IMenuServiceImpl implements IMenuService{
 		
 	}
 
+	@Override
+	public Menu findById(Long id) {
+		return iMenuRepository.findById(id).orElse(new Menu());
+	}
+
 }
