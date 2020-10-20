@@ -11,11 +11,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.boot.json.JsonParser;
+import org.springframework.boot.json.JsonParserFactory;
+
 import py.com.tropical.entity.Menu;
 import py.com.tropical.entity.MenuPlatos;
+import py.com.tropical.entity.Plato;
 import py.com.tropical.services.IMenuPlatoService;
 import py.com.tropical.services.IMenuService;
 import py.com.tropical.services.IPlatoService;
+import java.util.ArrayList;
 
 @Controller
 public class MenuController {
@@ -28,6 +36,7 @@ public class MenuController {
 	
 	@Autowired
 	IMenuPlatoService iMenuPlatoService;
+	
 	
 	@GetMapping("/menu")
 	public String index(Model model){
@@ -42,9 +51,32 @@ public class MenuController {
 	}
 	
 	@PostMapping("/menu")
-	public String store(Menu menu) {
+	public String store(Menu menu,@RequestParam String platos) {
+		JsonParser jsonParser = JsonParserFactory.getJsonParser();
+		List<Plato> platosLista = new ArrayList<>();
+		List<Object> objectosPlatos = jsonParser.parseList(platos);
+		ObjectMapper objectMapper = new ObjectMapper();
+		platosLista = objectMapper.convertValue(objectosPlatos, new TypeReference<List<Plato>>() {});
+		List<MenuPlatos> menuPlatosLista = new ArrayList<>();
+		MenuPlatos menuPlatoaux;
+		for(Plato plato : platosLista) {
+			menuPlatoaux = new MenuPlatos();
+			menuPlatoaux.setPlato(plato);
+			menuPlatosLista.add(menuPlatoaux);
+			menu.addMenuPlato(menuPlatoaux);
+		}
 		iMenuService.insertar(menu);
 		return "redirect:/menu";
+	}
+	
+	@GetMapping("/api/menu")
+	public ResponseEntity<?> getAllMenus(){
+		return ResponseEntity.ok(iMenuService.getAllMenus());
+	}
+	
+	@GetMapping("/api/menu/{idmenu}")
+	public ResponseEntity<?> getMenu(@PathVariable Long idmenu){
+		return ResponseEntity.ok(iMenuService.findById(idmenu));
 	}
 	
 	@GetMapping("/menu/{idmenu}")
@@ -62,10 +94,11 @@ public class MenuController {
 	
 	@PostMapping("/menu/{idmenu}")
 	public String storeAgregadoPlatoMenu(@PathVariable Long idmenu,@RequestParam Long plato) {
+		Menu menu = iMenuService.findById(idmenu);
 		MenuPlatos menuPlato = new MenuPlatos();
-		menuPlato.setMenu(iMenuService.findById(idmenu));
 		menuPlato.setPlato(iPlatoService.buscarPlatoPorId(plato));
-		iMenuPlatoService.save(menuPlato);
+		menu.addMenuPlato(menuPlato);
+		iMenuService.insertar(menu);
 		return "redirect:/menu";
 	}
 }

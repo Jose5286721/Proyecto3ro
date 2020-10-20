@@ -33,4 +33,9 @@ public class IMenuServiceImpl implements IMenuService{
 		return iMenuRepository.findById(id).orElse(new Menu());
 	}
 
+	@Override
+	public Long getCount() {
+		return iMenuRepository.count();
+	}
+
 }

@@ -44,7 +44,7 @@
 
 <!-- Main CSS-->
 <link th:href="@{/css/theme.css}" rel="stylesheet" media="all">
-
+<link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
 </head>
 
 <body class="animsition">
@@ -55,22 +55,24 @@
 			<!-- MAIN CONTENT-->
 			<div class="main-content">
 				<div class="section__content section__content--p30">
-					<div class="container-fluid">
+					<div class="container-fluid" id="app">
 
-						<div class="card">
-							<div class="card-header">
-								<h4 class="card-title">Nuevo Menu:</h4>
-							</div>
-							<div class="card-body">
+						<div class="au-card">
+							<div class="au-card-inner">
+								<h4 class="title-2 m-b-30">Nuevo Menu:</h4>
 								<form th:action="@{/menu}" th:object="${menu}" method="POST">
 									<div class="form-group">
 										<label>Nombre menu:</label> <input type="text"
-											class="form-control" th:field="*{nombre}" />
+											class="form-control au-input" th:field="*{nombre}" />
 									</div>
-
+									<div class="form-group">
+										<label>Seleccione los platos</label>
+										<multiselect v-model="platosSeleccionados" placeholder="Agrega platos a tu menu" label="nombre" :multiple="true" track-by="id" :options="platos"></multiselect>
+									</div>
+									<input type="hidden" name="platos" :value="JSON.stringify(platosSeleccionados)"/>
 									<input type="hidden" th:field="*{id}" />
-									<button type="submit" class="btn btn-success">Crear</button>
-									<a th:href="@{/menu}" class="btn btn-info">Volver</a>
+									<button type="submit" class="btn btn-block btn-success">Crear</button>
+									<a th:href="@{/menu}" class="btn btn-block btn-info">Volver</a>
 								</form>
 							</div>
 						</div>
@@ -83,6 +85,10 @@
 		</div>
 
 	</div>
+	<script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script th:src="@{/js/index.js}"></script>
 
 	<!-- Jquery JS-->
 	<script th:src="@{/vendor/jquery-3.2.1.min.js}"></script>

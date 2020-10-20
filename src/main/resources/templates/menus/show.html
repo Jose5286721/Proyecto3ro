@@ -58,15 +58,11 @@
 				<div class="section__content section__content--p30">
 					<div class="container-fluid">
 
-						<div class="card">
-							<div class="card-header">
-								<a th:href="@{/menu}" class="btn btn-info">Volver</a>
-								<h4 class="card-title"  th:text="${menu.nombre}">Detalle del menu:</h4>
-								
-							</div>
-							<div class="card-body">
-								<table class="table table-striped">
-									<thead class="thead-dark">
+						<div class="au-card">
+							<div class="au-card-inner">
+								<h4 class="title-2 m-b-30"  th:text="${menu.nombre}">Detalle del menu:</h4>
+								<table class="table table-borderless table-data3">
+									<thead>
 										<tr>
 											<th>ID</th>
 											<th>Plato</th>
@@ -80,6 +76,7 @@
 										</tr>
 									</tbody>
 								</table>
+								<a th:href="@{/menu}" class="btn btn-info m-t-30 btn-block">Volver</a>
 							</div>
 						</div>
 						<div th:replace="/layouts/footer :: footerPage"></div>

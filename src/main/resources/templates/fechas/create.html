@@ -44,7 +44,8 @@
 
 <!-- Main CSS-->
 <link th:href="@{/css/theme.css}" rel="stylesheet" media="all">
-
+<link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-datetime@1.0.0-beta.14/dist/vue-datetime.css">
 </head>
 
 <body class="animsition">
@@ -55,40 +56,37 @@
 			<!-- MAIN CONTENT-->
 			<div class="main-content">
 				<div class="section__content section__content--p30">
-					<div class="container-fluid">
+					<div class="container-fluid" id="app">
 
-						<div class="card">
-							<div class="card-header">
-								<h4 class="card-title">Nuevo Menu Concreto:</h4>
-							</div>
-							<div class="card-body">
-								<form class="form-row" method="POST" th:action="@{/menuconcretos}">
-									<div class="form-group col-lg-6">
-										<label>Menu:</label>
-										<select name="menu" class="form-control">
-											<option th:each="menu :${menus}" th:value="${menu.id}" th:text="${menu.nombre}"></option>
-										</select>
-									</div>
-									<div class="form-group col-lg-6">
-										<label>Plato:</label>
-										<select name="plato" class="form-control">
-											<option th:each="plato :${platos}" th:value="${plato.id}" th:text="${plato.nombre}"></option>
-										</select>
-									</div>
-									<div class="form-group col-lg-4">
-										<label>Fecha:</label>
-										<input type="date" name="fecha" class="form-control"/>
-									</div>
-									<div class="form-group col-lg-3">
+						<div class="au-card">
+							<div class="au-card-inner">
+								<h4 class="title-2 m-b-30">Nueva Fecha:</h4>
+								<form class="form-row" th:action="@{/fechas}" method="POST">
+									<div class="form-group col-lg-5">
 										<label>Temperatura:</label>
-										<input type="text" name="temperatura" class="form-control"/>	
+										<input type="text" name="temperatura" class="au-input au-input-full form-control" placeholder="Introduzca la temperatura" required>
 									</div>
-									<div class="form-group col-lg-3 offset-lg-1">
-										<label>Nro de Personas:</label>
-										<input type="number" name="personas" class="form-control"/>
+									<div class="form-group col-lg-6 offset-lg-1">
+										<label>Fecha:</label>
+										<datetime v-model="fechaSeleccionada" :auto="autoDateTime" value-zone="UTC-3" placeholder="Seleccione una fecha"></datetime>
 									</div>
-									<button class="btn btn-success au--input" type="submit">Registrar</button>
-									&nbsp;<a th:href="@{/menuconcretos}" class="btn btn-info">Volver</a>
+									<div class="form-group col-lg-12">
+										<label>Seleccione el menu:</label>
+										<multiselect v-model="menuSeleccionado" placeholder="Seleccione un menu para la fecha" label="nombre" track-by="id" :options="menuList"></multiselect>
+									</div>
+									<div class="form-group col-lg-12" v-if="platosMenu.length != 0">
+										<label>Seleccione los platos del menu:</label>
+										<multiselect v-model="platoSeleccionado" placeholder="Seleccione un plato del menu" label="nombre" track-by="id" :options="platosMenu"></multiselect>
+									</div>
+									<div class="form-group col-lg-12" v-if="platosMenu.length != 0">
+										<label>Introduzca la cantidad de personas:</label>
+										<input type="number" class="form-control sau-input au-input-full" name="personas">
+									</div>
+									<input type="hidden" name="plato" :value="JSON.stringify(platoSeleccionado)">
+									<input type="hidden" name="fecha" :value="fechaSeleccionadaData">
+									<input type="hidden" name="menu" :value="JSON.stringify(menuSeleccionado)">
+									<button class="btn btn-block btn-success" type="submit">Registrar</button>
+									<a th:href="@{/fechas}" class="btn btn-block btn-primary">Volver</a>
 								</form>
 							</div>
 						</div>
@@ -101,6 +99,13 @@
 		</div>
 
 	</div>
+	<script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/1.25.0/luxon.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/weekstart@1.0.1/dist/commonjs/main.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue-datetime@1.0.0-beta.14/dist/vue-datetime.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script th:src="@{/js/fechas/create.js}"></script>
 
 	<!-- Jquery JS-->
 	<script th:src="@{/vendor/jquery-3.2.1.min.js}"></script>

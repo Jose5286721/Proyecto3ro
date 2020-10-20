@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="menu_concreto_platos")
 public class MenuConcretoPlatos {
@@ -20,7 +22,8 @@ public class MenuConcretoPlatos {
 	Long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	MenuConcreto menuConcreto;
+	@JsonBackReference
+	Fecha fecha;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	Plato plato;
@@ -36,14 +39,6 @@ public class MenuConcretoPlatos {
 		this.id = id;
 	}
 
-	public MenuConcreto getMenuConcreto() {
-		return menuConcreto;
-	}
-
-	public void setMenuConcreto(MenuConcreto menuConcreto) {
-		this.menuConcreto = menuConcreto;
-	}
-
 	public Plato getPlato() {
 		return plato;
 	}
@@ -56,15 +51,23 @@ public class MenuConcretoPlatos {
 		return numPersonas;
 	}
 
+	public Fecha getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Fecha fecha) {
+		this.fecha = fecha;
+	}
+
 	public void setNumPersonas(Integer numPersonas) {
 		this.numPersonas = numPersonas;
 	}
 
-	public MenuConcretoPlatos(Long id, MenuConcreto menuConcreto, Plato plato, Integer numPersonas) {
+	public MenuConcretoPlatos(Long id,Fecha fecha,Plato plato, Integer numPersonas) {
 		super();
 		this.id = id;
-		this.menuConcreto = menuConcreto;
 		this.plato = plato;
+		this.fecha = fecha;
 		this.numPersonas = numPersonas;
 	}
 	

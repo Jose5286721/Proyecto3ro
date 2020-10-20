@@ -1,5 +1,7 @@
 package py.com.tropical.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,5 +18,11 @@ public class IMenuPlatoServiceImpl implements IMenuPlatoService{
 	public void save(MenuPlatos menuPlato) {
 		iMenuPlatosRepository.save(menuPlato);
 	}
+
+	@Override
+	public void saveAll(List<MenuPlatos> menuPlatosList) {
+		iMenuPlatosRepository.saveAll(menuPlatosList);
+	}
+	
 
 }

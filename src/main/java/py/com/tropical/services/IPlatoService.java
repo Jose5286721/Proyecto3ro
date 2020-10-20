@@ -13,4 +13,5 @@ public interface IPlatoService {
 	public void insertPlato(Plato plato);
 	public void eliminarPlato(Long id);
 	public Plato buscarPlatoPorId(Long id);
+	public Long getCount();
 }

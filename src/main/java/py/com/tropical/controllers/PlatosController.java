@@ -1,6 +1,7 @@
 package py.com.tropical.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,11 @@ public class PlatosController {
 	public String platosCreate(Model model) {
 		model.addAttribute("plato", new Plato());
 		return "platos/create";
+	}
+	
+	@GetMapping("/api/platos")
+	public ResponseEntity<?> getAllPlatos(){
+		return ResponseEntity.ok(iPlatoService.getPlatos());
 	}
 	
 	@PostMapping("/platos")

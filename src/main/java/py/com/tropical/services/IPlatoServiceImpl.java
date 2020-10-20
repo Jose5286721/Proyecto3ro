@@ -45,5 +45,10 @@ public class IPlatoServiceImpl implements IPlatoService{
 	public Plato buscarPlatoPorId(Long id) {
 		return iPlatoRepository.findById(id).orElse(new Plato());
 	}
+	
+	public Long getCount() {
+		return iPlatoRepository.count();
+	}
+
 
 }

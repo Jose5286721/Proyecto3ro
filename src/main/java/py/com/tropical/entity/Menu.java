@@ -1,21 +1,28 @@
 package py.com.tropical.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
-@Table(name="menu")
+@Table(name="menus")
 public class Menu {
 	
 	@Id
@@ -25,22 +32,24 @@ public class Menu {
 	String nombre;
 	
 	@Column(name="created_at")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	Date createdAt;
 	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="menu")
+	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.PERSIST)
+	@JoinColumn(name="menu_id")
 	List<MenuPlatos> menuPlatos;
 	
-	@OneToOne(fetch=FetchType.LAZY,mappedBy="menu")
-	MenuConcreto menuConcreto;
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="menu")
+	@JsonIgnore
+	List<Fecha> fechas;
 	
-	
-	
-	public MenuConcreto getMenuConcreto() {
-		return menuConcreto;
+
+	public List<Fecha> getFechas() {
+		return fechas;
 	}
 
-	public void setMenuConcreto(MenuConcreto menuConcreto) {
-		this.menuConcreto = menuConcreto;
+	public void setFechas(List<Fecha> fechas) {
+		this.fechas = fechas;
 	}
 
 	@PrePersist
@@ -82,6 +91,11 @@ public class Menu {
 
 	public Menu() {
 		super();
+		this.menuPlatos = new ArrayList<>();
+	}
+	
+	public void addMenuPlato(MenuPlatos menuPlatos) {
+		this.menuPlatos.add(menuPlatos);
 	}
 
 	public String getNombre() {

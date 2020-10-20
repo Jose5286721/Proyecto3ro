@@ -9,6 +9,11 @@ import javax.persistence.FetchType;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
@@ -18,6 +23,7 @@ import javax.persistence.GenerationType;
 @Entity
 @Table(name="platos")
 public class Plato {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long id;
@@ -30,12 +36,12 @@ public class Plato {
 
 	@Column(name="created_at")
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	Date createdAt;
 	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="plato")
-	List<MenuPlatos> menuPlatos;
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="plato")
+	@JsonIgnore
 	List<MenuConcretoPlatos> menuConcretoPlatos;
 	
 	public Date getCreatedAt() {
@@ -46,13 +52,6 @@ public class Plato {
 		this.createdAt = createdAt;
 	}
 	
-	public List<MenuPlatos> getMenuPlatos() {
-		return menuPlatos;
-	}
-
-	public void setMenuPlatos(List<MenuPlatos> menuPlatos) {
-		this.menuPlatos = menuPlatos;
-	}
 
 	public List<MenuConcretoPlatos> getMenuConcretoPlatos() {
 		return menuConcretoPlatos;
