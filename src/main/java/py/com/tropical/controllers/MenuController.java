@@ -98,6 +98,7 @@ public class MenuController {
 		MenuPlatos menuPlato = new MenuPlatos();
 		menuPlato.setPlato(iPlatoService.buscarPlatoPorId(plato));
 		menu.addMenuPlato(menuPlato);
+		iMenuPlatoService.save(menuPlato);
 		iMenuService.insertar(menu);
 		return "redirect:/menu";
 	}
