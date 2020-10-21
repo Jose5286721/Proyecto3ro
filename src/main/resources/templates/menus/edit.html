@@ -44,7 +44,6 @@
 
 <!-- Main CSS-->
 <link th:href="@{/css/theme.css}" rel="stylesheet" media="all">
-
 </head>
 
 <body class="animsition">
@@ -52,38 +51,23 @@
 		<header th:replace="/layouts/header :: headerPage"></header>
 		<div class="page-container">
 			<div th:replace="/layouts/headerDesktopBar :: desktopBar"></div>
-
 			<!-- MAIN CONTENT-->
 			<div class="main-content">
 				<div class="section__content section__content--p30">
-					<div class="container-fluid">
+					<div class="container-fluid" id="app">
 
 						<div class="au-card">
 							<div class="au-card-inner">
-								<h4 class="title-2 m-b-20">Listado de menus:</h4>
-								<table class="table table-borderless table-data3">
-									<thead>
-										<tr>
-											<th>ID</th>
-											<th>Nombre Menu</th>
-											<th>Fecha Creada</th>
-											<th>Acciones</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="menu :${listadoMenus}">
-											<td th:text="${menu.id}"></td>
-											<td th:text="${menu.nombre}"></td>
-											<td th:text="${menu.createdAt}"></td>
-											<td>
-												<a th:href="@{'/menu/'+ ${menu.id} + '/edit'}" class="btn btn-primary">Editar</a>
-											<a th:href="@{'/menu/'+ ${menu.id} +'/add'}" class="btn btn-success">Add Plato</a>
-												<a th:href="@{'/menu/'+ ${menu.id}}" class="btn btn-info">Detalles</a>
-												<a th:href="@{'/menu/'+ ${menu.id}(format='pdf')}" class="btn btn-danger">PDF</a>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+								<h4 class="title-2 m-b-30">Editar Menu:</h4>
+								<form th:object="${menu}" method="POST">
+									<div class="form-group">
+										<label>Nombre menu:</label> <input type="text"
+											class="form-control au-input" th:field="*{nombre}" />
+									</div>
+									<input type="hidden" th:field="*{id}" />
+									<button type="submit" class="btn btn-block btn-success">Guardar</button>
+									<a th:href="@{/menu}" class="btn btn-block btn-info">Volver</a>
+								</form>
 							</div>
 						</div>
 						<div th:replace="/layouts/footer :: footerPage"></div>

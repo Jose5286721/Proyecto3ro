@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -35,7 +36,7 @@ public class Menu {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	Date createdAt;
 	
-	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.PERSIST)
+	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name="menu_id")
 	List<MenuPlatos> menuPlatos;
 	
@@ -57,6 +58,10 @@ public class Menu {
 		createdAt = new Date();
 	}
 
+	@PreUpdate
+	public void preUpdate() {
+		createdAt = new Date();
+	}
 	public Long getId() {
 		return id;
 	}

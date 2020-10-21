@@ -8,15 +8,21 @@ var app = new Vue({
 		autoDateTime:true,
 		fechaDesdeFormat:'',
 		fechaHastaFormat:'',
-		fechasData:[]
+		fechasData:[],
+		showExportPdf:false
 	},
 	watch:{
 		fechaDesde:function(fechaNuevaDesde){
 			this.fechaDesdeFormat = LuxonDateTime.fromISO(fechaNuevaDesde).toISODate();
+			if(this.fechaDesdeFormat != ''){
+				this.getFechasByFilter();
+			}
 		},
 		fechaHasta:function(fechaNuevaHasta){
 			this.fechaHastaFormat = LuxonDateTime.fromISO(fechaNuevaHasta).toISODate();
-			this.getFechasByFilter();
+			if(this.fechaDesdeFormat != ''){
+				this.getFechasByFilter();
+			}
 		},
 	},
 	methods:{
@@ -26,7 +32,7 @@ var app = new Vue({
 			formData.append('hasta',this.fechaHastaFormat);
 			axios.post('/api/fechas',formData).then((response)=>{
 				this.fechasData = response.data
-				console.log(response.data);
+				this.showExportPdf = true;
 			})
 		}
 	}

@@ -71,6 +71,9 @@
 										<label>Hasta:</label>
 										<datetime v-model="fechaHasta" value-zone="UTC-3" :auto="autoDateTime" placeholder="Seleccione la fecha hasta donde quiere ver"></datetime>
 									</div>
+									<div class="form-group col-lg-4">
+										<a class="btn btn-danger text-white" :href="`/fechas/filter?desde=${fechaDesdeFormat}&hasta=${fechaHastaFormat}&format=pdf`" v-show="showExportPdf">Exportar a PDF</a>
+									</div>
 								</form>
 								<div class="accordion" id="parentAccordion" v-cloak>
                                     <div class="card border-0 mb-0" v-for="fecha in fechasData">

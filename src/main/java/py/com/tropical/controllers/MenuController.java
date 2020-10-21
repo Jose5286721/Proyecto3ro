@@ -92,6 +92,20 @@ public class MenuController {
 		return "menus/addplatos";
 	}
 	
+	@GetMapping("/menu/{idmenu}/edit")
+	public String edit(@PathVariable Long idmenu,Model model) {
+		model.addAttribute("menu",iMenuService.findById(idmenu));
+		return "menus/edit";
+	}
+	
+	@PostMapping("/menu/{idmenu}/edit")
+	public String edit(@PathVariable Long idmenu,Menu menu) {
+		Menu menuAux = iMenuService.findById(idmenu);
+		menuAux.setNombre(menu.getNombre());
+		iMenuService.insertar(menuAux);
+		return "redirect:/menu";
+	}
+	
 	@PostMapping("/menu/{idmenu}")
 	public String storeAgregadoPlatoMenu(@PathVariable Long idmenu,@RequestParam Long plato) {
 		Menu menu = iMenuService.findById(idmenu);

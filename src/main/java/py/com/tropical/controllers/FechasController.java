@@ -13,6 +13,7 @@ import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +35,12 @@ public class FechasController {
 	@GetMapping("/fechas")
 	public String index() {
 		return "fechas/index";
+	}
+	
+	@GetMapping("/fechas/filter")
+	public String getFechasByFilters(@RequestParam String desde,@RequestParam String hasta,Model model) throws ParseException{
+		model.addAttribute("fechas", iFechaService.findAllByFechaFilter(new SimpleDateFormat("yyyy-MM-dd").parse(desde), new SimpleDateFormat("yyyy-MM-dd").parse(hasta)));
+		return "fechas/show";
 	}
 	
 	@PostMapping("/api/fechas")
