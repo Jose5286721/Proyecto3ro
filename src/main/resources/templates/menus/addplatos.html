@@ -44,7 +44,7 @@
 
 <!-- Main CSS-->
 <link th:href="@{/css/theme.css}" rel="stylesheet" media="all">
-
+<link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
 </head>
 
 <body class="animsition">
@@ -55,20 +55,17 @@
 			<!-- MAIN CONTENT-->
 			<div class="main-content">
 				<div class="section__content section__content--p30">
-					<div class="container-fluid">
+					<div class="container-fluid" id="app">
 
-						<div class="card">
-							<div class="card-header">
-								<h4 class="card-title">Agregar plato al menu:</h4>
-							</div>
-							<div class="card-body">
+						<div class="au-card">
+							<div class="au-card-inner">
+								<h4 class="title-2 m-b-20">Agregar plato al menu:</h4>
 								<form th:action="@{'/menu/'+${menu_id}}" method="POST">
 									<div class="form-group">
 										<label>Platos:</label><br/>
-										<select name="plato">
-											<option th:each="plato :${platos}" th:value="${plato.id}" th:text="${plato.nombre}"></option>
-										</select>
+										<multiselect placeholder="Agregar plato al menu" label="nombre" track-by="id" v-model="platosSeleccionado" :options="platos"></multiselect>
 									</div>
+									<input type="hidden" name="plato" :value="platosSeleccionado.id"/>
 									<button type="submit" class="btn btn-success au--input">Agregar</button>
 								</form>
 							</div>
@@ -82,7 +79,10 @@
 		</div>
 
 	</div>
-
+	<script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script th:src="@{/js/menu/addplato.js}"></script>
 	<!-- Jquery JS-->
 	<script th:src="@{/vendor/jquery-3.2.1.min.js}"></script>
 	<!-- Bootstrap JS-->
