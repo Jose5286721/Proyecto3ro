@@ -14,13 +14,13 @@ var app = new Vue({
 	watch:{
 		fechaDesde:function(fechaNuevaDesde){
 			this.fechaDesdeFormat = LuxonDateTime.fromISO(fechaNuevaDesde).toISODate();
-			if(this.fechaDesdeFormat != ''){
+			if(this.fechaDesdeFormat != '' && this.fechaHastaFormat!= ''){
 				this.getFechasByFilter();
 			}
 		},
 		fechaHasta:function(fechaNuevaHasta){
 			this.fechaHastaFormat = LuxonDateTime.fromISO(fechaNuevaHasta).toISODate();
-			if(this.fechaDesdeFormat != ''){
+			if(this.fechaDesdeFormat != '' && this.fechaHastaFormat!= ''){
 				this.getFechasByFilter();
 			}
 		},
